@@ -16,9 +16,21 @@ func main() {
 		entry := scanner.Text()
 
 		input := cleanInput(entry)
+		if len(input) == 0 {
+			continue
+		}
 		firstWord := input[0]
-		returnText := fmt.Sprintf("Your command was: %s", firstWord)
-		fmt.Println(returnText)
 
+		commands :=getCommands()
+		cmd, ok := commands[firstWord]
+		
+		if ok {
+			err := cmd.callback()
+			if err != nil {
+				fmt.Println(err)
+			}
+		} else {
+			fmt.Println("Unknown command")
+		}
 	}
 }
