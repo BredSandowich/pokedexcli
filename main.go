@@ -10,7 +10,7 @@ func main() {
 	scanner := bufio.NewScanner(os.Stdin)
 
 	for ;; {
-		fmt.Println("Pokedex >")
+		fmt.Print("Pokedex > ")
 		//Wait for cli prompt to scan and then return the string
 		scanner.Scan()
 		entry := scanner.Text()
