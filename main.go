@@ -10,6 +10,7 @@ func main() {
 	scanner := bufio.NewScanner(os.Stdin)
 
 	cfg := &config{}
+	cfg.cache := *pokecache.NewCache(6 * time.Seconds)
 	commands := getCommands(cfg)
 
 	for ;; {

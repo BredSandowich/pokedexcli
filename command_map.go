@@ -6,11 +6,14 @@ import (
 	"log"
 	"net/http"
 	"encoding/json"
+
+	"github.com/BredSandowich/pokedexcli/internal/pokecache"
 )
 
 type config struct {
 	Next *string
 	Previous *string
+	cache pokecache.Cache
 }
 
 type LocationAreaResult struct {
@@ -34,6 +37,22 @@ func getMap(cfg *config) error {
 		url = *cfg.Next
 	}
 	
+	//Check if URL is already in cache
+	if val, ok := cfg.cache.Get(url); ok{
+		var locationResp LocationAreaResponse
+		err := json.Unmarshal(val, &locationResp)
+		if err != nil {
+			log.Fatal(err)
+		}
+		cfg.Next = locationResp.Next
+		cfg.Previous = locationResp.Previous
+
+		for _, place := range locationResp.Results {
+			fmt.Println(place.Name)
+		}
+		return nil
+	}
+
 	res, err := http.Get(url)
 	if err != nil {
 		log.Fatal(err)
@@ -44,6 +63,7 @@ func getMap(cfg *config) error {
 	
 	defer res.Body.Close()
 	body, err := io.ReadAll(res.Body)
+	cfg.cache.Add(url, body)
 	
 
 	var locationResp LocationAreaResponse
@@ -68,6 +88,22 @@ func getMapBack(cfg *config) error {
 	}
 	url := *cfg.Previous
 	
+	//Check if URL is already in cache
+	if val, ok := cfg.cache.Get(url); ok{
+		var locationResp LocationAreaResponse
+		err := json.Unmarshal(val, &locationResp)
+		if err != nil {
+			log.Fatal(err)
+		}
+		cfg.Next = locationResp.Next
+		cfg.Previous = locationResp.Previous
+
+		for _, place := range locationResp.Results {
+			fmt.Println(place.Name)
+		}
+		return nil
+	}
+
 	res, err := http.Get(url)
 	if err != nil {
 		log.Fatal(err)
@@ -78,7 +114,7 @@ func getMapBack(cfg *config) error {
 	
 	defer res.Body.Close()
 	body, err := io.ReadAll(res.Body)
-	
+	cfg.cache.Add(url, body)
 
 	var locationResp LocationAreaResponse
 	err = json.Unmarshal(body, &locationResp)
