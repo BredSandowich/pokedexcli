@@ -30,7 +30,7 @@ type LocationAreaResponse struct {
 
 
 
-func getMap(cfg *config) error {
+func getMap(cfg *config, args []string) error {
 	url := "https://pokeapi.co/api/v2/location-area/"
 
 	if cfg.Next != nil {
@@ -81,7 +81,7 @@ func getMap(cfg *config) error {
 }
 
 
-func getMapBack(cfg *config) error {
+func getMapBack(cfg *config, args []string) error {
 	if cfg.Previous == nil {
 		fmt.Println("You're on the first page.")
 		return nil

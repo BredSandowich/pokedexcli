@@ -4,13 +4,16 @@ import (
 	"fmt"
 	"bufio"
 	"os"
+	"time"
+
+	"github.com/BredSandowich/pokedexcli/internal/pokecache"
 )
 
 func main() {
 	scanner := bufio.NewScanner(os.Stdin)
 
 	cfg := &config{}
-	cfg.cache := *pokecache.NewCache(6 * time.Seconds)
+	cfg.cache = *pokecache.NewCache(6 * time.Second)
 	commands := getCommands(cfg)
 
 	for ;; {
@@ -23,12 +26,14 @@ func main() {
 		if len(input) == 0 {
 			continue
 		}
-		firstWord := input[0]
+		
+		command := input[0]
+		args := input[1:]
 
-		cmd, ok := commands[firstWord]
+		cmd, ok := commands[command]
 		
 		if ok {
-			err := cmd.callback(cfg)
+			err := cmd.callback(cfg, args)
 			if err != nil {
 				fmt.Println(err)
 			}
