@@ -9,6 +9,9 @@ import (
 func main() {
 	scanner := bufio.NewScanner(os.Stdin)
 
+	cfg := &config{}
+	commands := getCommands(cfg)
+
 	for ;; {
 		fmt.Print("Pokedex > ")
 		//Wait for cli prompt to scan and then return the string
@@ -21,11 +24,10 @@ func main() {
 		}
 		firstWord := input[0]
 
-		commands :=getCommands()
 		cmd, ok := commands[firstWord]
 		
 		if ok {
-			err := cmd.callback()
+			err := cmd.callback(cfg)
 			if err != nil {
 				fmt.Println(err)
 			}

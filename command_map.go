@@ -27,7 +27,7 @@ type LocationAreaResponse struct {
 
 
 
-func getMap(cfg *config) {
+func getMap(cfg *config) error {
 	url := "https://pokeapi.co/api/v2/location-area/"
 
 	if cfg.Next != nil {
@@ -57,15 +57,16 @@ func getMap(cfg *config) {
 	for _, place := range locationResp.Results {
 		fmt.Println(place.Name)
 	}
+	return nil
 }
 
 
-func getMapBack(cfg *config) {
+func getMapBack(cfg *config) error {
 	if cfg.Previous == nil {
 		fmt.Println("You're on the first page.")
-		return
+		return nil
 	}
-	url := *cfg.Next
+	url := *cfg.Previous
 	
 	res, err := http.Get(url)
 	if err != nil {
@@ -91,4 +92,5 @@ func getMapBack(cfg *config) {
 	for _, place := range locationResp.Results {
 		fmt.Println(place.Name)
 	}
+	return nil
 }

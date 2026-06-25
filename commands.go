@@ -3,21 +3,35 @@ package main
 type cliCommand struct {
 	name string
 	description string
-	callback func() error
+	callback func(*config) error
 }
 
-func getCommands() map[string]cliCommand{
+
+func getCommands(cfg *config) map[string]cliCommand{
 	return map[string]cliCommand {
+	"map": {
+			name: "map",
+			description: "List of location end-points",
+			callback: getMap,
+	},
+	
+	"mapb": {
+		name: "map",
+		description: "List of location end-points",
+		callback: getMapBack,
+},
+	
+	"help": {
+		name: "help",
+		description: "Help index of the Pokedex",
+		callback: commandHelp,
+	},
+	
 	"exit": {
 		name: "exit",
 		description: "Exit the Pokedex",
 		callback: commandExit,
 	},
 
-	"help": {
-		name: "help",
-		description: "Help index of the Pokedex",
-		callback: commandHelp,
-	},
 }
 }
