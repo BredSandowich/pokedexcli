@@ -8,12 +8,14 @@ import (
 	"encoding/json"
 
 	"github.com/BredSandowich/pokedexcli/internal/pokecache"
+	"github.com/BredSandowich/pokedexcli/internal/pokeapi"
 )
 
 type config struct {
 	Next *string
 	Previous *string
 	cache pokecache.Cache
+	caughtPokemon map[string]pokeapi.PokemonResp
 }
 
 type LocationAreaResult struct {

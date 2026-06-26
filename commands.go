@@ -7,7 +7,7 @@ type cliCommand struct {
 }
 
 
-func getCommands(cfg *config) map[string]cliCommand{
+func getCommands(cfg *config) map[string]cliCommand {
 	return map[string]cliCommand {
 	"map": {
 			name: "map",
@@ -37,6 +37,18 @@ func getCommands(cfg *config) map[string]cliCommand{
 		name: "explore",
 		description: "list all pokemon located in selected location",
 		callback: commandExplore,
+	},
+
+	"catch": {
+		name: "catch",
+		description: "add a pokemon to your catalogue",
+		callback: commandCatch,
+	},
+
+	"inspect": {
+		name: "inspect",
+		description: "investigate catalogue of pokemon you have caught",
+		callback: commandInspect,
 	},
 
 }

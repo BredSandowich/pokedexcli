@@ -7,12 +7,15 @@ import (
 	"time"
 
 	"github.com/BredSandowich/pokedexcli/internal/pokecache"
+	"github.com/BredSandowich/pokedexcli/internal/pokeapi"
 )
 
 func main() {
 	scanner := bufio.NewScanner(os.Stdin)
 
-	cfg := &config{}
+	cfg := &config{
+		caughtPokemon : make(map[string]pokeapi.PokemonResp),
+	}
 	cfg.cache = *pokecache.NewCache(6 * time.Second)
 	commands := getCommands(cfg)
 

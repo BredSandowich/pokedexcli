@@ -5,7 +5,6 @@ import (
 	"sync"
 )
 
-
 type Cache struct {
 	mu sync.Mutex
 	mem map[string]cacheEntry
