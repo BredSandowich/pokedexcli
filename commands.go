@@ -51,5 +51,11 @@ func getCommands(cfg *config) map[string]cliCommand {
 		callback: commandInspect,
 	},
 
+	"pokedex": {
+		name: "pokedex",
+		description: "show all the pokemon you have caught",
+		callback: commandPokedex,
+	},
+
 }
 }
